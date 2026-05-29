@@ -155,7 +155,6 @@ input[type=text]:focus, input[type=tel]:focus { border-color: #1a1a1a; backgroun
 <div class="overlay" id="overlay"><div class="spinner"></div></div>
 
 <script>
-  // ★ Google Apps Script 배포 URL로 교체하세요
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbzEFrtwTpVVBaHt9xXzh0ru5bP2QT0RAVyAOGAml4uMb5VHjyFkxhZkK7UOET2mf0NUuw/exec';
 
   let cnt = 1;
@@ -208,11 +207,8 @@ input[type=text]:focus, input[type=tel]:focus { border-color: #1a1a1a; backgroun
     document.getElementById('overlay').classList.add('show');
 
     try {
-      const res = await fetch(GAS_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify(payload)
-      });
+      const encoded = encodeURIComponent(JSON.stringify(payload));
+      const res = await fetch(GAS_URL + '?data=' + encoded);
 
       document.getElementById('overlay').classList.remove('show');
       document.getElementById('formWrap').style.display  = 'none';
